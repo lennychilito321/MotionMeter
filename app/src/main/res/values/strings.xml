@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Medidor de Movimiento</string>
+
+    <!-- Bienvenida / carga / ajustes -->
+    <string name="welcome_subtitle">Tu celular convertido en un sismógrafo sencillo</string>
+    <string name="btn_howto">¿Cómo usar?</string>
+    <string name="btn_go_measure">Ir a medir</string>
+    <string name="loading">Cargando…</string>
+    <string name="settings_title">Configuración</string>
+    <string name="settings_theme">Apariencia</string>
+    <string name="theme_system">Según el sistema</string>
+    <string name="theme_light">Modo claro</string>
+    <string name="theme_dark">Modo oscuro</string>
+    <string name="settings_language">Idioma</string>
+    <string name="lang_system">Según el sistema</string>
+    <string name="lang_es">Español</string>
+    <string name="lang_en">English</string>
+
+    <string name="welcome_summary">Esta app usa el acelerómetro de tu celular para medir el movimiento de una superficie, por ejemplo una mesa. Con el celular quieto sobre ella, registra cómo se mueve y te dice qué tan fuerte fue, cuánto duró y en qué dirección ocurrió.\n\nTambién dibuja la señal en tiempo real y te deja guardar cada medición y exportarla a CSV para analizarla en Excel.</string>
+
+    <string name="welcome_steps">En resumen:\n1. Pon el celular plano sobre la mesa.\n2. Calibra con la mesa quieta.\n3. Pulsa Medir y mueve la mesa.\n4. Revisa el resultado y guárdalo.\n\nToca ¿Cómo usar? para ver la guía detallada.</string>
+
+    <!-- Pantalla de medición -->
+    <string name="no_accel">Este celular no tiene acelerómetro</string>
+    <string name="sensor_line">Sensor: %1$s · %2$s</string>
+    <string name="sensor_type_linear">TYPE_LINEAR_ACCELERATION</string>
+    <string name="sensor_type_acc">TYPE_ACCELEROMETER + filtro paso alto</string>
+    <string name="status_uncal">Sin calibrar · pon el celular plano y quieto</string>
+    <string name="status_cal">Calibrado · listo para medir</string>
+    <string name="status_calibrating">Calibrando… %1$d %%</string>
+    <string name="status_waiting">Esperando movimiento…</string>
+    <string name="status_recording">● Registrando movimiento…</string>
+    <string name="status_done">Medición terminada</string>
+    <string name="btn_calibrate">Calibrar</string>
+    <string name="btn_measure">Medir</string>
+    <string name="btn_stop">Detener</string>
+    <string name="btn_save">Guardar</string>
+    <string name="btn_history">Historial</string>
+    <string name="chart_caption_live">Señal en vivo (últimos 5 s)</string>
+    <string name="chart_caption_event">Medición: t = 0 es el inicio del movimiento (negativo = reposo previo)</string>
+    <string name="chart_no_data">Esperando lecturas del sensor…</string>
+    <string name="limit_threshold">umbral</string>
+    <string name="sens_hint">Más a la izquierda = más sensible (detecta movimientos suaves, pero también más ruido).</string>
+    <string name="thr_uncal">Sensibilidad: umbral = %1$.0f × ruido (calibra para ver el valor)</string>
+    <string name="thr_cal">Sensibilidad: umbral = %1$.0f × ruido = %2$.4f m/s²</string>
+    <string name="result_title">Resultado</string>
+    <string name="result_empty">Todavía no hay mediciones.</string>
+    <string name="label_hint">Etiqueta (ej. suave-x-1, fuerte-y-3)</string>
+    <string name="calibrating_msg">Calibrando: deja el celular quieto sobre la mesa…</string>
+    <string name="calib_done">Calibración lista\nOffset x: %1$.4f m/s²\nOffset y: %2$.4f m/s²\nOffset z: %3$.4f m/s²\nRuido:    %4$.4f m/s²\nMuestreo: %5$.0f Hz (%6$d lecturas)</string>
+    <string name="noise_warning">El ruido salió alto: parece que algo se movió. Repite la calibración con la mesa quieta.</string>
+    <string name="calibrate_first">Primero calibra con el celular quieto.</string>
+    <string name="saved">Guardado: %1$s</string>
+    <string name="live_line">x %1$+7.3f   y %2$+7.3f   z %3$+7.3f\n|a| %4$6.3f m/s²   ·   %5$.0f Hz</string>
+
+    <string name="r_peak">Aceleración pico: %1$.3f m/s²  (t = %2$.3f s)\n</string>
+    <string name="r_rms">RMS:              %1$.3f m/s²\n</string>
+    <string name="r_dur">Duración:         %1$.3f s\n</string>
+    <string name="r_axis">Eje dominante:    %1$s\n</string>
+    <string name="r_rms_axes">  RMS  x %1$.3f · y %2$.3f · z %3$.3f\n</string>
+    <string name="r_peak_axes">  Pico x %1$.3f · y %2$.3f · z %3$.3f\n</string>
+    <string name="r_vel">Velocidad máx.:   %1$.4f m/s *\n</string>
+    <string name="r_disp_max">Desplaz. máx.:    %1$.2f cm *\n</string>
+    <string name="r_disp_final">Desplaz. final:   %1$.2f cm *\n</string>
+    <string name="r_thr">Umbral usado:     %1$.4f m/s²\n</string>
+    <string name="r_truncated">⚠ Se cortó a los 30 s: el movimiento no se detuvo.\n</string>
+    <string name="r_footnote">\n* Estimados por integración; acumulan deriva.\n  Confiables solo en movimientos cortos.</string>
+
+    <!-- Filtro de ruido, duración y explicación -->
+    <string name="filter_switch">Filtrar ruido del sensor</string>
+    <string name="filter_hint">Activado: suaviza la señal y descarta lo que no se distingue del ruido. Desactivado: muestra la señal cruda del sensor, con su ruido.</string>
+    <string name="window_label">Duración de la medición: %1$s</string>
+    <string name="window_auto">automática</string>
+    <string name="window_fixed">%1$d s</string>
+    <string name="window_hint">Automática: termina sola cuando la mesa vuelve a quedar quieta. Con un tiempo fijo, mide exactamente ese tiempo desde que empieza el movimiento.</string>
+    <string name="status_recording_fixed">● Registrando… %1$.1f / %2$d s</string>
+    <string name="btn_tech_show">Ver datos técnicos</string>
+    <string name="btn_tech_hide">Ocultar datos técnicos</string>
+    <string name="explain_title">¿Qué pasó?</string>
+    <string name="ex_int_1">Fue un movimiento casi imperceptible (pico de %1$.2f m/s²), apenas por encima del ruido del sensor.</string>
+    <string name="ex_int_2">Fue un movimiento suave (pico de %1$.2f m/s²), como un roce o un toque ligero sobre la mesa.</string>
+    <string name="ex_int_3">Fue un movimiento moderado (pico de %1$.2f m/s²), como un golpecito o un empujón.</string>
+    <string name="ex_int_4">Fue un movimiento fuerte (pico de %1$.2f m/s²), como un golpe firme o un empujón brusco.</string>
+    <string name="ex_int_5">Fue un movimiento muy fuerte (pico de %1$.2f m/s²), un golpe violento para este tipo de sensor.</string>
+    <string name="ex_dur_1">Duró solo %1$.2f s: fue instantáneo, un golpe seco.</string>
+    <string name="ex_dur_2">Duró %1$.1f s: fue un movimiento corto.</string>
+    <string name="ex_dur_3">Duró %1$.1f s: fue un movimiento sostenido.</string>
+    <string name="ex_dur_4">Duró %1$.1f s: fue un movimiento prolongado.</string>
+    <string name="ex_shape_1">La energía se concentró en un instante: un golpe o una sacudida puntual.</string>
+    <string name="ex_shape_2">Hubo un golpe inicial seguido de un movimiento que se fue apagando.</string>
+    <string name="ex_shape_3">El movimiento fue continuo y parejo, como una vibración.</string>
+    <string name="ex_dir_1">La mesa se movió sobre todo hacia arriba y abajo.</string>
+    <string name="ex_dir_2">La mesa se movió sobre todo de lado, sobre su superficie.</string>
+    <string name="ex_dir_3">El movimiento ocurrió en varias direcciones.</string>
+    <string name="ex_disp_ok">Estimación: la mesa se desplazó unos %1$.1f mm.</string>
+    <string name="ex_disp_bad">El desplazamiento estimado (%1$.1f mm) no es confiable porque el movimiento duró bastante.</string>
+    <string name="ex_reliable">Medición confiable: el movimiento superó claramente el ruido.</string>
+    <string name="ex_unreliable">⚠ El movimiento apenas superó el umbral, así que podría ser ruido o una vibración externa. Repite la medición o sube la sensibilidad.</string>
+    <string name="ex_cut">⚠ El movimiento seguía cuando terminó el tiempo fijado. Usa una duración mayor para medirlo completo.</string>
+    <string name="ex_mode_filtered">Medido con filtro de ruido.</string>
+    <string name="ex_mode_raw">Medido sin filtro: los valores incluyen el ruido del sensor.</string>
+    <string name="yes">sí</string>
+    <string name="no">no</string>
+    <string name="r_filter">Filtro de ruido:  %1$s\n</string>
+    <string name="r_window">Duración config.: %1$s\n</string>
+    <string name="t_filter">Filtro de ruido</string>
+    <string name="t_window">Duración de la medición</string>
+    <string name="help_filter">Con el filtro activado, la app suaviza la señal y descarta las lecturas que no se distinguen del ruido del sensor; así el resultado refleja mejor el movimiento real. Con el filtro desactivado ves la señal cruda, con todo su ruido: sirve para estudiar el propio sensor o comparar. En el CSV queda anotado cuál usaste.</string>
+    <string name="help_window">Automática: la medición empieza cuando detecta movimiento y termina cuando la mesa vuelve a quedar quieta. Tiempo fijo (1 a 60 s): mide exactamente ese tiempo desde que empieza el movimiento. Úsalo si quieres comparar mediciones de la misma duración o capturar un movimiento largo.</string>
+
+    <!-- Gráficas del resultado -->
+    <string name="gr_scale_title">Escala de intensidad</string>
+    <string name="gr_scale_cap">El triángulo marca dónde cayó el pico de tu medición. La escala va de casi nula (verde) a muy fuerte (rojo).</string>
+    <string name="gr_a_title">Aceleración en el tiempo (m/s²)</string>
+    <string name="gr_a_cap">Muestra qué tan fuerte fue el movimiento en cada instante. Horizontal: tiempo en segundos (0 = inicio del movimiento). Entre «inicio» y «fin» está el movimiento; el punto es el pico. Lo que queda bajo la línea de umbral no se cuenta como movimiento.</string>
+    <string name="gr_v_title">Velocidad estimada (m/s)</string>
+    <string name="gr_v_cap">Qué tan rápido se movió la mesa. Sube cuando la mesa arranca y vuelve a cero cuando se detiene. Se calcula a partir de la aceleración, por eso es una estimación.</string>
+    <string name="gr_d_title">Desplazamiento estimado (mm)</string>
+    <string name="gr_d_cap">Cuánto se alejó la mesa de su posición inicial. Es una estimación: solo es confiable en movimientos cortos.</string>
+    <string name="gr_start">inicio</string>
+    <string name="gr_end">fin</string>
+    <string name="gr_threshold">umbral</string>
+    <string name="gr_peak_label">pico %1$.2f</string>
+    <string name="gr_max_label">máx %1$.2f</string>
+    <string name="scale_1">Casi nula</string>
+    <string name="scale_2">Suave</string>
+    <string name="scale_3">Moderada</string>
+    <string name="scale_4">Fuerte</string>
+    <string name="scale_5">Muy fuerte</string>
+
+    <!-- Informe PDF -->
+    <string name="rep_title">Informe de medición</string>
+    <string name="rep_title_all">Informe de mediciones</string>
+    <string name="rep_generated">Generado el %1$s</string>
+    <string name="rep_count">%1$d mediciones</string>
+    <string name="rep_footer">Medidor de Movimiento · página %1$d</string>
+    <string name="rep_info">Datos de la medición</string>
+    <string name="rep_label">Etiqueta</string>
+    <string name="rep_date">Fecha</string>
+    <string name="rep_sensor">Sensor</string>
+    <string name="rep_rate">Frecuencia de muestreo</string>
+    <string name="rep_noise">Ruido del sensor (calibración)</string>
+    <string name="rep_thr">Umbral de detección</string>
+    <string name="rep_filter">Filtro de ruido</string>
+    <string name="rep_window">Duración configurada</string>
+    <string name="rep_charts">Gráficas</string>
+    <string name="rep_tech">Datos técnicos</string>
+    <string name="rep_glossary">Qué significa cada dato</string>
+    <string name="rep_summary">Resumen de mediciones</string>
+    <string name="rep_col_peak">Pico (m/s²)</string>
+    <string name="rep_col_rms">RMS (m/s²)</string>
+    <string name="rep_col_dur">Dur. (s)</string>
+    <string name="rep_col_disp">Desp. máx. (mm)</string>
+    <string name="rep_bars">Pico por medición (m/s²)</string>
+    <string name="rep_bars_cap">Cada barra es una medición, numerada como en la tabla (la más antigua a la izquierda). Sirve para comparar intensidades.</string>
+    <string name="rep_bars_last">Se muestran las últimas %1$d.</string>
+    <string name="rep_csv_note">Las lecturas completas (tiempo, aceleración, velocidad y desplazamiento) están en los archivos CSV adjuntos.</string>
+    <string name="rt_peak">Aceleración pico</string>
+    <string name="rt_peak_t">Instante del pico</string>
+    <string name="rt_rms">RMS</string>
+    <string name="rt_dur">Duración del movimiento</string>
+    <string name="rt_axis">Eje dominante</string>
+    <string name="rt_rms_axes">RMS por eje (x / y / z)</string>
+    <string name="rt_peak_axes">Pico por eje (x / y / z)</string>
+    <string name="rt_vmax">Velocidad máxima (estimada)</string>
+    <string name="rt_dmax">Desplazamiento máximo (estimado)</string>
+    <string name="rt_dfinal">Desplazamiento final (estimado)</string>
+    <string name="rt_trunc">Cortada a los 30 s</string>
+    <string name="report_generating">Generando informe PDF…</string>
+    <string name="report_error">No se pudo generar el informe.</string>
+
+    <!-- Historial -->
+    <string name="history_title">Historial de mediciones</string>
+    <string name="history_hint">Toca una medición para exportarla: se envía un informe PDF (datos técnicos, interpretación y gráficas) junto con sus lecturas en CSV.</string>
+    <string name="btn_export_all">Exportar todo</string>
+    <string name="btn_delete_all">Borrar todo</string>
+    <string name="hist_none">No hay mediciones guardadas.</string>
+    <string name="hist_count">%1$d mediciones guardadas</string>
+    <string name="hist_row">%1$s  ·  %2$s\npico %3$s m/s² · RMS %4$s · %5$s s · eje %6$s</string>
+    <string name="file_missing">No se encontró %1$s</string>
+    <string name="delete_title">Borrar todas las mediciones</string>
+    <string name="delete_msg">Se eliminarán el resumen y todos los archivos CSV. No se puede deshacer.</string>
+    <string name="delete_confirm">Borrar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="export_one">Exportar %1$s</string>
+    <string name="export_all">Exportar todas las mediciones</string>
+    <string name="export_subject">Mediciones de movimiento</string>
+
+    <!-- Guía -->
+    <string name="help_title">¿Cómo usar?</string>
+    <string name="help_h1">1. Cómo debe estar el celular</string>
+    <string name="help_h2">2. Pasos para medir</string>
+    <string name="help_h3">3. Qué significa cada dato</string>
+    <string name="help_h4">4. Cómo interpretar los resultados</string>
+    <string name="help_h5">5. Problemas frecuentes</string>
+    <string name="t_peak">Aceleración pico (m/s²)</string>
+    <string name="t_rms">RMS (m/s²)</string>
+    <string name="t_duration">Duración (s)</string>
+    <string name="t_axis">Eje dominante (x, y o z)</string>
+    <string name="t_disp">Velocidad máx. y desplazamiento (*)</string>
+    <string name="t_noise">Ruido y offset (calibración)</string>
+    <string name="t_k">Sensibilidad (k)</string>
+
+    <string name="help_placement">Para que las mediciones sean correctas:\n\n• Celular PLANO sobre la mesa, con la pantalla hacia arriba. Así el eje z queda vertical y x e y quedan sobre la superficie: x va hacia la derecha del celular, y hacia la parte de arriba (donde está la cámara frontal) y z sale de la pantalla.\n• Usa una mesa firme, sin mantel ni almohadilla. Una superficie blanda absorbe el movimiento.\n• Que no se pueda deslizar. Si el celular resbala, estás midiendo su deslizamiento y no el de la mesa. Puedes poner cinta doble faz o un trozo de goma antideslizante.\n• Siempre en la misma posición y orientación entre repeticiones, para poder comparar. Marca con cinta el contorno del celular.\n• Sin cargador conectado ni cables colgando, porque pueden tirar del celular.\n• No toques el celular ni la mesa durante la calibración.\n• Evita vibraciones externas: personas caminando cerca, música con bajos, ventiladores o lavadoras. La app las mediría como movimiento.\n• Pon el celular en silencio y sin vibración: la vibración del propio celular se mediría como movimiento.\n• Usa un celular físico. El emulador tiene un acelerómetro simulado y no sirve.</string>
+
+    <string name="help_steps">1. Coloca el celular como se explicó arriba.\n2. Pulsa Calibrar y no toques nada durante 2 segundos. La app mide el offset de cada eje y el ruido del sensor. Si aparece el aviso de ruido alto, repite la calibración.\n3. Ajusta la sensibilidad si hace falta. El valor por defecto (k = 5) funciona bien en la mayoría de los casos.\n4. Pulsa Medir. La app queda en espera y detecta sola cuándo empieza el movimiento.\n5. Mueve la mesa (un golpe suave, un empujón, etc.). Cuando la mesa vuelve a quedar quieta, la app termina la medición sola.\n6. Revisa el resultado. Escribe una etiqueta (por ejemplo fuerte-x-2) y pulsa Guardar.\n7. En Historial puedes ver, exportar o borrar tus mediciones.\n\nRepite cada caso varias veces para comparar y reducir el error.</string>
+
+    <string name="help_peak">Es el valor más grande de la aceleración durante el movimiento. Indica qué tan fuerte fue el golpe o el empujón en su momento más intenso. Como referencia: 9,8 m/s² equivale a 1 g (la gravedad). Menos de 0,1 m/s² es casi imperceptible; de 0,1 a 0,5 es suave; de 0,5 a 2 es moderado; de 2 a 5 es fuerte; más de 5 es muy fuerte.</string>
+
+    <string name="help_rms">Es la intensidad promedio del movimiento durante toda su duración. A diferencia del pico, no depende de un solo instante, sino de todo el evento. Un golpe seco tiene pico alto pero RMS bajo; una sacudida sostenida tiene RMS alto. Si la señal es senoidal, RMS = pico / 1,41.</string>
+
+    <string name="help_duration">Tiempo desde que la aceleración supera el umbral hasta la última vez que lo supera. El fin se confirma cuando hay 0,3 s de reposo. Sirve para distinguir un golpe breve (décimas de segundo) de un movimiento prolongado (varios segundos).</string>
+
+    <string name="help_axis">Es el eje en el que hubo más movimiento (el de mayor RMS). x e y son direcciones horizontales sobre la mesa, y z es vertical. Si el dominante es z, la mesa se movió sobre todo hacia arriba y abajo. También se muestra el RMS y el pico de cada eje, por si quieres ver la dirección con más detalle.</string>
+
+    <string name="help_disp">Se calculan integrando la aceleración dos veces (primero da velocidad, luego posición). Por eso llevan un asterisco: acumulan error muy rápido y solo son confiables en movimientos cortos, de menos de 1 o 2 segundos, y con buena calibración. Úsalos como estimación y compáralos con una medida externa (regla o video). Desplaz. máx. es el mayor alejamiento respecto de la posición inicial y Desplaz. final es dónde queda la mesa al terminar.</string>
+
+    <string name="help_noise">Offset es la lectura que da el sensor cuando no hay movimiento (debería ser 0 y casi nunca lo es); la app lo resta de todas las mediciones. Ruido es cuánto fluctúa la lectura en reposo, normalmente entre 0,01 y 0,05 m/s². Los movimientos más pequeños que el ruido no se pueden medir.</string>
+
+    <string name="help_k">El umbral de detección es k × ruido. Un k bajo detecta movimientos más suaves, pero se activa con vibraciones falsas. Un k alto ignora vibraciones pequeñas, pero puede no detectar movimientos suaves. El valor recomendado es 5.</string>
+
+    <string name="help_interpret">• Compara siempre mediciones hechas con la misma posición del celular y la misma calibración.\n• Si repites el mismo movimiento y los valores son parecidos, la medición es confiable. Si cambian mucho, revisa que el celular no se deslice y que no haya vibraciones externas.\n• A mayor intensidad del movimiento deberían subir el pico y el RMS. Si no es así, algo está fallando.\n• Si el pico es muy cercano al umbral, el movimiento fue casi imperceptible para el sensor y el resultado es poco fiable.\n• Esta app no reemplaza a un sismógrafo profesional: es una herramienta de laboratorio para estudiar el movimiento con el sensor de un celular.</string>
+
+    <string name="help_problems">• No detecta el movimiento: calibra de nuevo o baja k (mueve la barra hacia la izquierda).\n• Detecta movimiento sin tocar nada: sube k, aleja las fuentes de vibración y vuelve a calibrar.\n• Aviso de ruido alto: algo se movió durante la calibración. Repítela con la mesa quieta.\n• Resultados distintos en cada repetición: revisa que el celular no se deslice y que siempre esté en la misma posición.\n• Velocidad y desplazamiento raros: es normal en movimientos largos; confía solo en los cortos.</string>
+</resources>

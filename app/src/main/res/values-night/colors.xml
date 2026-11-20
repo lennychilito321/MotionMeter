@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand">#3E7CC0</color>
+    <color name="brand_dark">#2F5F96</color>
+    <color name="title">#9CC3EE</color>
+    <color name="accent">#F29A43</color>
+    <color name="ink">#E8EEF5</color>
+    <color name="muted">#9FB0C2</color>
+    <color name="line">#2E4260</color>
+    <color name="panel">#B31B2B42</color>
+    <color name="card">#E6142235</color>
+    <color name="axis_x">#FF6B6B</color>
+    <color name="axis_y">#4CD08A</color>
+    <color name="axis_z">#6AA5FF</color>
+    <color name="axis_mag">#FFFFFF</color>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Claro u oscuro según la preferencia del usuario (ver AppSettings). El fondo es la imagen bg_motion,
+         que tiene versión clara (drawable-nodpi) y oscura (drawable-night-nodpi). -->
+    <style name="Theme.MedidorMovimiento" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorPrimaryVariant">@color/brand_dark</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="android:windowBackground">@drawable/bg_window</item>
+        <item name="android:textColorPrimary">@color/ink</item>
+        <item name="android:textColorHint">@color/muted</item>
+    </style>
+
+    <style name="Theme.MedidorMovimiento.Splash">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

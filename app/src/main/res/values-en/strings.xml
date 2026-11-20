@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Motion Meter</string>
+
+    <string name="welcome_subtitle">Your phone turned into a simple seismograph</string>
+    <string name="btn_howto">How to use</string>
+    <string name="btn_go_measure">Go to measure</string>
+    <string name="loading">Loading…</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_theme">Appearance</string>
+    <string name="theme_system">Follow system</string>
+    <string name="theme_light">Light mode</string>
+    <string name="theme_dark">Dark mode</string>
+    <string name="settings_language">Language</string>
+    <string name="lang_system">Follow system</string>
+    <string name="lang_es">Español</string>
+    <string name="lang_en">English</string>
+
+    <string name="welcome_summary">This app uses your phone accelerometer to measure the movement of a surface, such as a table. With the phone resting on it, it records how the surface moves and tells you how strong it was, how long it lasted and in which direction it happened.\n\nIt also draws the signal in real time and lets you save each measurement and export it as CSV to analyze in Excel.</string>
+
+    <string name="welcome_steps">In short:\n1. Lay the phone flat on the table.\n2. Calibrate with the table still.\n3. Tap Measure and move the table.\n4. Check the result and save it.\n\nTap How to use for the detailed guide.</string>
+
+    <string name="no_accel">This phone has no accelerometer</string>
+    <string name="sensor_line">Sensor: %1$s · %2$s</string>
+    <string name="sensor_type_linear">TYPE_LINEAR_ACCELERATION</string>
+    <string name="sensor_type_acc">TYPE_ACCELEROMETER + high-pass filter</string>
+    <string name="status_uncal">Not calibrated · lay the phone flat and still</string>
+    <string name="status_cal">Calibrated · ready to measure</string>
+    <string name="status_calibrating">Calibrating… %1$d %%</string>
+    <string name="status_waiting">Waiting for movement…</string>
+    <string name="status_recording">● Recording movement…</string>
+    <string name="status_done">Measurement finished</string>
+    <string name="btn_calibrate">Calibrate</string>
+    <string name="btn_measure">Measure</string>
+    <string name="btn_stop">Stop</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_history">History</string>
+    <string name="chart_caption_live">Live signal (last 5 s)</string>
+    <string name="chart_caption_event">Measurement: t = 0 is the start of the movement (negative = prior rest)</string>
+    <string name="chart_no_data">Waiting for sensor readings…</string>
+    <string name="limit_threshold">threshold</string>
+    <string name="sens_hint">Further left = more sensitive (detects soft movements, but also more noise).</string>
+    <string name="thr_uncal">Sensitivity: threshold = %1$.0f × noise (calibrate to see the value)</string>
+    <string name="thr_cal">Sensitivity: threshold = %1$.0f × noise = %2$.4f m/s²</string>
+    <string name="result_title">Result</string>
+    <string name="result_empty">No measurements yet.</string>
+    <string name="label_hint">Label (e.g. soft-x-1, strong-y-3)</string>
+    <string name="calibrating_msg">Calibrating: keep the phone still on the table…</string>
+    <string name="calib_done">Calibration ready\nOffset x: %1$.4f m/s²\nOffset y: %2$.4f m/s²\nOffset z: %3$.4f m/s²\nNoise:    %4$.4f m/s²\nSampling: %5$.0f Hz (%6$d readings)</string>
+    <string name="noise_warning">Noise is high: something seems to have moved. Repeat the calibration with the table still.</string>
+    <string name="calibrate_first">Calibrate first, with the phone still.</string>
+    <string name="saved">Saved: %1$s</string>
+    <string name="live_line">x %1$+7.3f   y %2$+7.3f   z %3$+7.3f\n|a| %4$6.3f m/s²   ·   %5$.0f Hz</string>
+
+    <string name="r_peak">Peak accel.:     %1$.3f m/s²  (t = %2$.3f s)\n</string>
+    <string name="r_rms">RMS:              %1$.3f m/s²\n</string>
+    <string name="r_dur">Duration:         %1$.3f s\n</string>
+    <string name="r_axis">Dominant axis:   %1$s\n</string>
+    <string name="r_rms_axes">  RMS  x %1$.3f · y %2$.3f · z %3$.3f\n</string>
+    <string name="r_peak_axes">  Peak x %1$.3f · y %2$.3f · z %3$.3f\n</string>
+    <string name="r_vel">Max velocity:    %1$.4f m/s *\n</string>
+    <string name="r_disp_max">Max displ.:      %1$.2f cm *\n</string>
+    <string name="r_disp_final">Final displ.:    %1$.2f cm *\n</string>
+    <string name="r_thr">Threshold used:  %1$.4f m/s²\n</string>
+    <string name="r_truncated">⚠ Cut at 30 s: the movement did not stop.\n</string>
+    <string name="r_footnote">\n* Estimated by integration; they accumulate drift.\n  Reliable only for short movements.</string>
+
+    <string name="filter_switch">Filter sensor noise</string>
+    <string name="filter_hint">On: smooths the signal and discards what cannot be told apart from noise. Off: shows the raw sensor signal, noise included.</string>
+    <string name="window_label">Measurement duration: %1$s</string>
+    <string name="window_auto">automatic</string>
+    <string name="window_fixed">%1$d s</string>
+    <string name="window_hint">Automatic: ends by itself when the table is still again. With a fixed time, it measures exactly that long from when the movement starts.</string>
+    <string name="status_recording_fixed">● Recording… %1$.1f / %2$d s</string>
+    <string name="btn_tech_show">Show technical data</string>
+    <string name="btn_tech_hide">Hide technical data</string>
+    <string name="explain_title">What happened?</string>
+    <string name="ex_int_1">It was an almost imperceptible movement (peak of %1$.2f m/s²), barely above the sensor noise.</string>
+    <string name="ex_int_2">It was a soft movement (peak of %1$.2f m/s²), like a brush or a light touch on the table.</string>
+    <string name="ex_int_3">It was a moderate movement (peak of %1$.2f m/s²), like a tap or a push.</string>
+    <string name="ex_int_4">It was a strong movement (peak of %1$.2f m/s²), like a firm hit or an abrupt push.</string>
+    <string name="ex_int_5">It was a very strong movement (peak of %1$.2f m/s²), a violent hit for this kind of sensor.</string>
+    <string name="ex_dur_1">It lasted only %1$.2f s: it was instantaneous, a sharp hit.</string>
+    <string name="ex_dur_2">It lasted %1$.1f s: a short movement.</string>
+    <string name="ex_dur_3">It lasted %1$.1f s: a sustained movement.</string>
+    <string name="ex_dur_4">It lasted %1$.1f s: a prolonged movement.</string>
+    <string name="ex_shape_1">The energy was concentrated in one instant: a single hit or jolt.</string>
+    <string name="ex_shape_2">There was an initial hit followed by a movement that faded away.</string>
+    <string name="ex_shape_3">The movement was continuous and steady, like a vibration.</string>
+    <string name="ex_dir_1">The table moved mostly up and down.</string>
+    <string name="ex_dir_2">The table moved mostly sideways, along its surface.</string>
+    <string name="ex_dir_3">The movement happened in several directions.</string>
+    <string name="ex_disp_ok">Estimate: the table moved about %1$.1f mm.</string>
+    <string name="ex_disp_bad">The estimated displacement (%1$.1f mm) is not reliable because the movement lasted quite long.</string>
+    <string name="ex_reliable">Reliable measurement: the movement clearly exceeded the noise.</string>
+    <string name="ex_unreliable">⚠ The movement barely exceeded the threshold, so it could be noise or an outside vibration. Repeat the measurement or raise the sensitivity.</string>
+    <string name="ex_cut">⚠ The movement was still going when the set time ended. Use a longer duration to measure it completely.</string>
+    <string name="ex_mode_filtered">Measured with noise filter.</string>
+    <string name="ex_mode_raw">Measured without filter: the values include sensor noise.</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="r_filter">Noise filter:     %1$s\n</string>
+    <string name="r_window">Set duration:     %1$s\n</string>
+    <string name="t_filter">Noise filter</string>
+    <string name="t_window">Measurement duration</string>
+    <string name="help_filter">With the filter on, the app smooths the signal and discards readings that cannot be told apart from the sensor noise, so the result reflects the real movement better. With the filter off you see the raw signal with all its noise: useful to study the sensor itself or to compare. The CSV records which one you used.</string>
+    <string name="help_window">Automatic: the measurement starts when movement is detected and ends when the table is still again. Fixed time (1 to 60 s): measures exactly that long from when the movement starts. Use it to compare measurements of the same length or to capture a long movement.</string>
+
+    <string name="gr_scale_title">Intensity scale</string>
+    <string name="gr_scale_cap">The triangle marks where the peak of your measurement fell. The scale goes from almost none (green) to very strong (red).</string>
+    <string name="gr_a_title">Acceleration over time (m/s²)</string>
+    <string name="gr_a_cap">Shows how strong the movement was at each instant. Horizontal: time in seconds (0 = start of the movement). The movement lies between "start" and "end"; the dot is the peak. Anything below the threshold line is not counted as movement.</string>
+    <string name="gr_v_title">Estimated velocity (m/s)</string>
+    <string name="gr_v_cap">How fast the table moved. It rises when the table starts moving and returns to zero when it stops. It is computed from the acceleration, so it is an estimate.</string>
+    <string name="gr_d_title">Estimated displacement (mm)</string>
+    <string name="gr_d_cap">How far the table moved from its starting position. It is an estimate: only reliable for short movements.</string>
+    <string name="gr_start">start</string>
+    <string name="gr_end">end</string>
+    <string name="gr_threshold">threshold</string>
+    <string name="gr_peak_label">peak %1$.2f</string>
+    <string name="gr_max_label">max %1$.2f</string>
+    <string name="scale_1">Almost none</string>
+    <string name="scale_2">Soft</string>
+    <string name="scale_3">Moderate</string>
+    <string name="scale_4">Strong</string>
+    <string name="scale_5">Very strong</string>
+
+    <string name="rep_title">Measurement report</string>
+    <string name="rep_title_all">Measurements report</string>
+    <string name="rep_generated">Generated on %1$s</string>
+    <string name="rep_count">%1$d measurements</string>
+    <string name="rep_footer">Motion Meter · page %1$d</string>
+    <string name="rep_info">Measurement details</string>
+    <string name="rep_label">Label</string>
+    <string name="rep_date">Date</string>
+    <string name="rep_sensor">Sensor</string>
+    <string name="rep_rate">Sampling rate</string>
+    <string name="rep_noise">Sensor noise (calibration)</string>
+    <string name="rep_thr">Detection threshold</string>
+    <string name="rep_filter">Noise filter</string>
+    <string name="rep_window">Set duration</string>
+    <string name="rep_charts">Charts</string>
+    <string name="rep_tech">Technical data</string>
+    <string name="rep_glossary">What each value means</string>
+    <string name="rep_summary">Measurements summary</string>
+    <string name="rep_col_peak">Peak (m/s²)</string>
+    <string name="rep_col_rms">RMS (m/s²)</string>
+    <string name="rep_col_dur">Dur. (s)</string>
+    <string name="rep_col_disp">Max displ. (mm)</string>
+    <string name="rep_bars">Peak per measurement (m/s²)</string>
+    <string name="rep_bars_cap">Each bar is a measurement, numbered as in the table (oldest on the left). Useful to compare intensities.</string>
+    <string name="rep_bars_last">Showing the last %1$d.</string>
+    <string name="rep_csv_note">The full readings (time, acceleration, velocity and displacement) are in the attached CSV files.</string>
+    <string name="rt_peak">Peak acceleration</string>
+    <string name="rt_peak_t">Time of the peak</string>
+    <string name="rt_rms">RMS</string>
+    <string name="rt_dur">Movement duration</string>
+    <string name="rt_axis">Dominant axis</string>
+    <string name="rt_rms_axes">RMS per axis (x / y / z)</string>
+    <string name="rt_peak_axes">Peak per axis (x / y / z)</string>
+    <string name="rt_vmax">Max velocity (estimated)</string>
+    <string name="rt_dmax">Max displacement (estimated)</string>
+    <string name="rt_dfinal">Final displacement (estimated)</string>
+    <string name="rt_trunc">Cut at 30 s</string>
+    <string name="report_generating">Generating PDF report…</string>
+    <string name="report_error">The report could not be generated.</string>
+
+    <string name="history_title">Measurement history</string>
+    <string name="history_hint">Tap a measurement to export it: a PDF report (technical data, interpretation and charts) is sent together with its readings as CSV.</string>
+    <string name="btn_export_all">Export all</string>
+    <string name="btn_delete_all">Delete all</string>
+    <string name="hist_none">No saved measurements.</string>
+    <string name="hist_count">%1$d saved measurements</string>
+    <string name="hist_row">%1$s  ·  %2$s\npeak %3$s m/s² · RMS %4$s · %5$s s · axis %6$s</string>
+    <string name="file_missing">%1$s not found</string>
+    <string name="delete_title">Delete all measurements</string>
+    <string name="delete_msg">The summary and all CSV files will be removed. This cannot be undone.</string>
+    <string name="delete_confirm">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="export_one">Export %1$s</string>
+    <string name="export_all">Export all measurements</string>
+    <string name="export_subject">Motion measurements</string>
+
+    <string name="help_title">How to use</string>
+    <string name="help_h1">1. How to place the phone</string>
+    <string name="help_h2">2. Steps to measure</string>
+    <string name="help_h3">3. What each value means</string>
+    <string name="help_h4">4. How to interpret the results</string>
+    <string name="help_h5">5. Common problems</string>
+    <string name="t_peak">Peak acceleration (m/s²)</string>
+    <string name="t_rms">RMS (m/s²)</string>
+    <string name="t_duration">Duration (s)</string>
+    <string name="t_axis">Dominant axis (x, y or z)</string>
+    <string name="t_disp">Max velocity and displacement (*)</string>
+    <string name="t_noise">Noise and offset (calibration)</string>
+    <string name="t_k">Sensitivity (k)</string>
+
+    <string name="help_placement">For correct measurements:\n\n• Phone FLAT on the table, screen facing up. This keeps the z axis vertical, with x and y lying on the surface: x points to the right of the phone, y toward the top (where the front camera is) and z comes out of the screen.\n• Use a firm table, with no tablecloth or pad. A soft surface absorbs the movement.\n• The phone must not slide. If it slips, you are measuring its sliding and not the table. You can use double-sided tape or a piece of non-slip rubber.\n• Always in the same position and orientation between repetitions, so you can compare. Mark the phone outline with tape.\n• No charger plugged in and no dangling cables, since they can pull the phone.\n• Do not touch the phone or the table during calibration.\n• Avoid outside vibrations: people walking nearby, loud bass music, fans or washing machines. The app would measure them as movement.\n• Set the phone to silent with vibration off: the phone own vibration would be measured as movement.\n• Use a real phone. The emulator has a simulated accelerometer and does not work.</string>
+
+    <string name="help_steps">1. Place the phone as explained above.\n2. Tap Calibrate and touch nothing for 2 seconds. The app measures the offset of each axis and the sensor noise. If the high-noise warning appears, repeat the calibration.\n3. Adjust the sensitivity if needed. The default value (k = 5) works well in most cases.\n4. Tap Measure. The app waits and detects by itself when the movement starts.\n5. Move the table (a soft tap, a push, etc.). When the table is still again, the app ends the measurement by itself.\n6. Check the result. Type a label (for example strong-x-2) and tap Save.\n7. In History you can view, export or delete your measurements.\n\nRepeat each case several times to compare and reduce error.</string>
+
+    <string name="help_peak">The largest acceleration value during the movement. It shows how strong the hit or push was at its most intense moment. For reference: 9.8 m/s² equals 1 g (gravity). Below 0.1 m/s² is almost imperceptible; 0.1 to 0.5 is soft; 0.5 to 2 is moderate; 2 to 5 is strong; above 5 is very strong.</string>
+
+    <string name="help_rms">The average intensity of the movement over its whole duration. Unlike the peak, it does not depend on a single instant but on the whole event. A sharp hit has a high peak but low RMS; a sustained shake has high RMS. For a sinusoidal signal, RMS = peak / 1.41.</string>
+
+    <string name="help_duration">Time from when the acceleration exceeds the threshold until the last time it does. The end is confirmed after 0.3 s of rest. It helps tell a short hit (tenths of a second) from a long movement (several seconds).</string>
+
+    <string name="help_axis">The axis with the most movement (highest RMS). x and y are horizontal directions on the table, and z is vertical. If z dominates, the table moved mostly up and down. The RMS and peak of each axis are also shown, in case you want more detail about the direction.</string>
+
+    <string name="help_disp">They are computed by integrating the acceleration twice (first velocity, then position). That is why they carry an asterisk: they accumulate error very fast and are only reliable for short movements, under 1 or 2 seconds, with good calibration. Use them as an estimate and compare them with an external measurement (ruler or video). Max displ. is the farthest distance from the starting position and Final displ. is where the table ends up.</string>
+
+    <string name="help_noise">Offset is the reading the sensor gives when there is no movement (it should be 0 but almost never is); the app subtracts it from all measurements. Noise is how much the reading fluctuates at rest, usually between 0.01 and 0.05 m/s². Movements smaller than the noise cannot be measured.</string>
+
+    <string name="help_k">The detection threshold is k × noise. A low k detects softer movements but triggers on false vibrations. A high k ignores small vibrations but may miss soft movements. The recommended value is 5.</string>
+
+    <string name="help_interpret">• Always compare measurements taken with the same phone position and the same calibration.\n• If you repeat the same movement and the values are similar, the measurement is reliable. If they change a lot, check that the phone is not sliding and that there are no outside vibrations.\n• The stronger the movement, the higher the peak and RMS should be. If not, something is wrong.\n• If the peak is very close to the threshold, the movement was almost imperceptible to the sensor and the result is unreliable.\n• This app does not replace a professional seismograph: it is a lab tool for studying movement with a phone sensor.</string>
+
+    <string name="help_problems">• It does not detect the movement: calibrate again or lower k (move the bar to the left).\n• It detects movement without touching anything: raise k, move vibration sources away and calibrate again.\n• High-noise warning: something moved during calibration. Repeat it with the table still.\n• Different results on each repetition: check that the phone does not slide and is always in the same position.\n• Odd velocity and displacement: normal for long movements; trust only the short ones.</string>
+</resources>
