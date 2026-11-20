@@ -1,37 +1,30 @@
 package co.edu.uniautonoma.medidormovimiento
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import co.edu.uniautonoma.medidormovimiento.databinding.ActivityHistoryBinding
 import java.io.File
 
-class HistoryActivity : AppCompatActivity() {
+class HistoryActivity : UpNavActivity() {
 
+    private val binding by lazy { ActivityHistoryBinding.inflate(layoutInflater) }
     private lateinit var store: MeasurementStore
-    private lateinit var list: ListView
-    private lateinit var txtCount: TextView
     private var entries: List<MeasurementStore.Entry> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_history)
+        setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         store = MeasurementStore(this)
-        list = findViewById(R.id.list)
-        txtCount = findViewById(R.id.txtCount)
 
         // Al exportar se envía un informe PDF (datos técnicos, interpretación y gráficas) junto con los CSV.
-        list.setOnItemClickListener { _, _, position, _ ->
+        binding.list.setOnItemClickListener { _, _, position, _ ->
             val fileName = entries[position].fileName
             val csv = File(store.dir, fileName)
             if (!csv.exists()) {
-                Toast.makeText(this, getString(R.string.file_missing, csv.name), Toast.LENGTH_SHORT).show()
+                toast(getString(R.string.file_missing, csv.name))
                 return@setOnItemClickListener
             }
             buildAndShare {
@@ -42,9 +35,9 @@ class HistoryActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnExportAll).setOnClickListener {
+        binding.btnExportAll.setOnClickListener {
             if (entries.isEmpty()) {
-                Toast.makeText(this, getString(R.string.hist_none), Toast.LENGTH_SHORT).show()
+                toast(getString(R.string.hist_none))
                 return@setOnClickListener
             }
             val names = entries.map { it.fileName }.reversed() // de la más antigua a la más reciente
@@ -57,7 +50,7 @@ class HistoryActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnDeleteAll).setOnClickListener {
+        binding.btnDeleteAll.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle(R.string.delete_title)
                 .setMessage(R.string.delete_msg)
@@ -73,8 +66,8 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     /** Genera el PDF en un hilo aparte (puede tardar unos segundos) y abre el selector de apps para enviarlo. */
-    private fun buildAndShare(build: () -> android.content.Intent?) {
-        Toast.makeText(this, getString(R.string.report_generating), Toast.LENGTH_SHORT).show()
+    private fun buildAndShare(build: () -> Intent?) {
+        toast(getString(R.string.report_generating))
         Thread {
             val intent = try {
                 build()
@@ -83,27 +76,16 @@ class HistoryActivity : AppCompatActivity() {
             }
             runOnUiThread {
                 if (isFinishing || isDestroyed) return@runOnUiThread
-                if (intent == null) {
-                    Toast.makeText(this, getString(R.string.report_error), Toast.LENGTH_LONG).show()
-                } else {
-                    startActivity(intent)
-                }
+                if (intent == null) toast(getString(R.string.report_error), long = true) else startActivity(intent)
             }
         }.start()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
-    }
-
     private fun load() {
         entries = store.list()
-        txtCount.text = if (entries.isEmpty()) getString(R.string.hist_none)
-        else getString(R.string.hist_count, entries.size)
-        val rows = entries.map {
-            getString(R.string.hist_row, it.label, it.date, it.peak, it.rms, it.duration, it.axis)
-        }
-        list.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, rows)
+        binding.txtCount.text =
+            if (entries.isEmpty()) getString(R.string.hist_none) else getString(R.string.hist_count, entries.size)
+        val rows = entries.map { getString(R.string.hist_row, it.label, it.date, it.peak, it.rms, it.duration, it.axis) }
+        binding.list.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, rows)
     }
 }

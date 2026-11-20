@@ -113,11 +113,24 @@
     <string name="gr_scale_title">Escala de intensidad</string>
     <string name="gr_scale_cap">El triángulo marca dónde cayó el pico de tu medición. La escala va de casi nula (verde) a muy fuerte (rojo).</string>
     <string name="gr_a_title">Aceleración en el tiempo (m/s²)</string>
-    <string name="gr_a_cap">Muestra qué tan fuerte fue el movimiento en cada instante. Horizontal: tiempo en segundos (0 = inicio del movimiento). Entre «inicio» y «fin» está el movimiento; el punto es el pico. Lo que queda bajo la línea de umbral no se cuenta como movimiento.</string>
+    <string name="gr_a_cap">Cómo leerla: la curva sube cuando el movimiento es más fuerte. Entre «inicio» y «fin» está el movimiento y el punto marca el pico. Lo que queda bajo la línea de umbral no se cuenta como movimiento: es ruido del sensor.</string>
+    <string name="gr_x_label">Eje horizontal →  Tiempo en segundos (s). El 0 es el instante en que empezó el movimiento; los valores negativos son el reposo antes de que empezara.</string>
+    <string name="gr_a_ylabel">Eje vertical ↑  Aceleración total |a| en m/s²: qué tan fuerte es el movimiento en cada instante, sumando los tres ejes.</string>
+    <string name="gr_v_ylabel">Eje vertical ↑  Velocidad estimada |v| en m/s: qué tan rápido se mueve la mesa.</string>
+    <string name="gr_d_ylabel">Eje vertical ↑  Desplazamiento estimado |d| en mm: cuánto se alejó la mesa de su posición inicial.</string>
+    <string name="gr_ax_title">Aceleración por eje (x, y, z)</string>
+    <string name="gr_ax_ylabel">Eje vertical ↑  Aceleración de cada eje del celular en m/s². Puede ser positiva o negativa: el signo indica el sentido del movimiento.</string>
+    <string name="gr_ax_cap">Muestra hacia dónde se movió la mesa. x: hacia la derecha (+) o la izquierda (−) del celular. y: hacia arriba (+) o abajo (−) del celular, sobre la misma superficie. z: vertical, hacia arriba (+) o abajo (−) de la mesa. La curva que más se aleja de cero es la dirección principal del movimiento.</string>
+    <string name="gr_ax_x">x (derecha del celular)</string>
+    <string name="gr_ax_y">y (arriba del celular)</string>
+    <string name="gr_ax_z">z (vertical)</string>
+    <string name="gr_a_legend">|a| aceleración total</string>
+    <string name="gr_v_legend">|v| velocidad</string>
+    <string name="gr_d_legend">|d| desplazamiento</string>
     <string name="gr_v_title">Velocidad estimada (m/s)</string>
-    <string name="gr_v_cap">Qué tan rápido se movió la mesa. Sube cuando la mesa arranca y vuelve a cero cuando se detiene. Se calcula a partir de la aceleración, por eso es una estimación.</string>
+    <string name="gr_v_cap">Cómo leerla: sube cuando la mesa arranca y vuelve a cero cuando se detiene; el punto marca la velocidad máxima. Se calcula a partir de la aceleración, por eso es una estimación.</string>
     <string name="gr_d_title">Desplazamiento estimado (mm)</string>
-    <string name="gr_d_cap">Cuánto se alejó la mesa de su posición inicial. Es una estimación: solo es confiable en movimientos cortos.</string>
+    <string name="gr_d_cap">Cómo leerla: es la distancia acumulada respecto del punto de partida; el punto marca el máximo. Es una estimación: solo es confiable en movimientos cortos (menos de 1 o 2 s).</string>
     <string name="gr_start">inicio</string>
     <string name="gr_end">fin</string>
     <string name="gr_threshold">umbral</string>

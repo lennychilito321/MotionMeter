@@ -214,15 +214,31 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/gr_a_ylabel"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chartAccel"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="240dp"
                 android:layout_marginTop="4dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/gr_x_label"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="@string/gr_a_cap"
                 android:textColor="@color/muted"
                 android:textSize="12sp" />
@@ -236,15 +252,31 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/gr_v_ylabel"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chartVel"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:layout_marginTop="4dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/gr_x_label"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="@string/gr_v_cap"
                 android:textColor="@color/muted"
                 android:textSize="12sp" />
@@ -258,16 +290,70 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/gr_d_ylabel"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chartDisp"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
                 android:layout_marginTop="4dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/gr_x_label"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:text="@string/gr_d_cap"
+                android:textColor="@color/muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/gr_ax_title"
+                android:textColor="@color/title"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/gr_ax_ylabel"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chartAxes"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gr_x_label"
+                android:textColor="@color/ink"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/gr_ax_cap"
                 android:textColor="@color/muted"
                 android:textSize="12sp" />
         </LinearLayout>

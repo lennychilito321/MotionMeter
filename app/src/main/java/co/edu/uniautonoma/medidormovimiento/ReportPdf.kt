@@ -148,48 +148,84 @@ class ReportPdf(private val context: Context) {
         return ox to oy
     }
 
+    /** Una curva de una gráfica: valores, color y, si tiene nombre, entrada en la leyenda. */
+    private class Series(val ys: List<Float>, val color: Int, val label: String? = null)
+
     /**
-     * Gráfica de línea con relleno. [hLines]: líneas horizontales (valor, etiqueta);
-     * [vLines]: líneas verticales (x, etiqueta); [marker]: punto destacado (x, y, etiqueta).
+     * Gráfica de línea con una o varias curvas. Explica sus ejes: [yNote] y [xNote] van sobre la gráfica y debajo hay una
+     * leyenda con el significado de cada color y marca. [hLines]: líneas horizontales (valor, etiqueta);
+     * [vLines]: líneas verticales (x, etiqueta); [marker]: punto destacado (x, y, etiqueta);
+     * [signed]: el eje vertical admite valores negativos (aceleración por eje).
      */
     private fun lineChart(
         title: String,
         caption: String,
+        yNote: String,
+        xNote: String,
         xsIn: List<Float>,
-        ysIn: List<Float>,
-        color: Int,
+        series: List<Series>,
         hLines: List<Pair<Float, String>> = emptyList(),
         vLines: List<Pair<Float, String>> = emptyList(),
         marker: Triple<Float, Float, String>? = null,
+        signed: Boolean = false,
     ) {
-        val chartH = 150f
+        val chartH = 160f
+        val notePaint = paint(8.5f, color = muted)
+        val yNoteL = layout(clean(yNote), notePaint, contentW)
+        val xNoteL = layout(clean(xNote), notePaint, contentW)
         val capLayout = layout(clean(caption), paint(9f, color = muted), contentW)
-        ensure(20f + chartH + capLayout.height + 14f)
-        canvas.drawText(title, margin, y + 12f, paint(11.5f, true, ink))
-        y += 20f
 
-        val (xs, ys) = downsample(xsIn, ysIn)
+        // Leyenda: (color, texto, estilo) con estilo 0 = línea, 1 = línea discontinua, 2 = punto
+        val legend = ArrayList<Triple<Int, String, Int>>()
+        for (sr in series) sr.label?.let { legend.add(Triple(sr.color, it, 0)) }
+        for ((_, name) in hLines) legend.add(Triple(accent, name, 1))
+        if (vLines.isNotEmpty()) legend.add(Triple(muted, vLines.joinToString(" / ") { it.second }, 1))
+        marker?.let { legend.add(Triple(accent, it.third, 2)) }
+        val lp = paint(8.5f)
+        var legendRows = 1
+        var rowX = 0f
+        for ((_, txt, _) in legend) {
+            val w = 18f + lp.measureText(txt) + 12f
+            if (rowX + w > contentW && rowX > 0f) { legendRows++; rowX = 0f }
+            rowX += w
+        }
+        val legendH = if (legend.isEmpty()) 0f else legendRows * 13f + 4f
+
+        ensure(20f + yNoteL.height + xNoteL.height + chartH + legendH + capLayout.height + 24f)
+        canvas.drawText(title, margin, y + 12f, paint(11.5f, true, ink))
+        y += 18f
+        canvas.save(); canvas.translate(margin, y); yNoteL.draw(canvas); canvas.restore()
+        y += yNoteL.height + 2f
+        canvas.save(); canvas.translate(margin, y); xNoteL.draw(canvas); canvas.restore()
+        y += xNoteL.height + 4f
+
+        val xsAll = xsIn
+        val sampled = series.map { downsample(xsAll, it.ys) }
+        val xs = sampled.first().first
         val l = margin + 44f
         val r = margin + contentW - 10f
         val t = y + 6f
         val b = y + chartH - 22f
         val xMin = xs.first()
         val xMax = if (xs.last() > xMin) xs.last() else xMin + 1f
-        var yMax = ys.maxOrNull() ?: 1f
+        var yMax = sampled.maxOf { (_, ys) -> ys.maxOrNull() ?: 0f }
+        var yMin = if (signed) sampled.minOf { (_, ys) -> ys.minOrNull() ?: 0f } else 0f
         for ((v, _) in hLines) yMax = max(yMax, v)
         marker?.let { yMax = max(yMax, it.second) }
-        if (yMax <= 0f) yMax = 1f
-        yMax *= 1.18f
+        if (yMax <= 0f && yMin >= 0f) yMax = 1f
+        yMax = if (yMax > 0f) yMax * 1.18f else 0f
+        yMin = if (yMin < 0f) yMin * 1.18f else 0f
+        val ySpan = yMax - yMin
 
         fun px(x: Float) = l + (x - xMin) / (xMax - xMin) * (r - l)
-        fun py(v: Float) = b - v / yMax * (b - t)
+        fun py(v: Float) = b - (v - yMin) / ySpan * (b - t)
 
         val grid = Paint().apply { this.color = lineColor; strokeWidth = 0.6f }
         val lab = paint(8f, color = muted)
         for (i in 0..4) {
-            val v = yMax * i / 4f
+            val v = yMin + ySpan * i / 4f
             canvas.drawLine(l, py(v), r, py(v), grid)
-            val txt = fmtAxis(v, yMax)
+            val txt = fmtAxis(v, max(abs(yMax), abs(yMin)))
             canvas.drawText(txt, l - 4f - lab.measureText(txt), py(v) + 3f, lab)
         }
         for (i in 0..5) {
@@ -199,16 +235,25 @@ class ReportPdf(private val context: Context) {
         }
         canvas.drawText("t (s)", r - lab.measureText("t (s)"), b + 21f, lab)
 
-        // Área y línea
-        val area = Path()
-        val line = Path()
-        for (i in xs.indices) {
-            val x = px(xs[i]); val yy = py(ys[i])
-            if (i == 0) { area.moveTo(x, b); area.lineTo(x, yy); line.moveTo(x, yy) } else { area.lineTo(x, yy); line.lineTo(x, yy) }
+        // Curvas (con relleno si hay una sola)
+        for ((si, sr) in series.withIndex()) {
+            val ys = sampled[si].second
+            val line = Path()
+            for (i in xs.indices) {
+                val x = px(xs[i]); val yy = py(ys[i])
+                if (i == 0) line.moveTo(x, yy) else line.lineTo(x, yy)
+            }
+            if (series.size == 1) {
+                val area = Path()
+                val base = py(0f.coerceIn(yMin, yMax))
+                area.moveTo(px(xs.first()), base)
+                for (i in xs.indices) area.lineTo(px(xs[i]), py(ys[i]))
+                area.lineTo(px(xs.last()), base); area.close()
+                canvas.drawPath(area, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = sr.color; alpha = 55; style = Paint.Style.FILL })
+            }
+            canvas.drawPath(line, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = sr.color; style = Paint.Style.STROKE; strokeWidth = 1.6f })
         }
-        area.lineTo(px(xs.last()), b); area.close()
-        canvas.drawPath(area, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color; alpha = 55; style = Paint.Style.FILL })
-        canvas.drawPath(line, Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = color; style = Paint.Style.STROKE; strokeWidth = 1.6f })
+        if (yMin < 0f) canvas.drawLine(l, py(0f), r, py(0f), Paint().apply { this.color = ink; strokeWidth = 0.8f })
 
         val dash = DashPathEffect(floatArrayOf(5f, 4f), 0f)
         for ((v, name) in hLines) {
@@ -231,8 +276,25 @@ class ReportPdf(private val context: Context) {
         val axis = Paint().apply { this.color = ink; strokeWidth = 1f }
         canvas.drawLine(l, t, l, b, axis)
         canvas.drawLine(l, b, r, b, axis)
-
         y += chartH
+
+        // Leyenda
+        if (legend.isNotEmpty()) {
+            var lx = margin
+            var ly = y + 2f
+            for ((c, txt, kind) in legend) {
+                val w = 18f + lp.measureText(txt) + 12f
+                if (lx - margin + w > contentW && lx > margin) { lx = margin; ly += 13f }
+                val sw = Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = c; strokeWidth = 2f; if (kind == 1) pathEffect = dash }
+                when (kind) {
+                    2 -> canvas.drawCircle(lx + 7f, ly + 6f, 3.4f, sw.apply { this.style = Paint.Style.FILL })
+                    else -> canvas.drawLine(lx, ly + 6f, lx + 14f, ly + 6f, sw)
+                }
+                canvas.drawText(txt, lx + 18f, ly + 9f, lp)
+                lx += w
+            }
+            y += legendH
+        }
         canvas.save(); canvas.translate(margin, y); capLayout.draw(canvas); canvas.restore()
         y += capLayout.height + 12f
     }
@@ -376,8 +438,10 @@ class ReportPdf(private val context: Context) {
         scale(m.peak)
 
         val ts = m.samples.map { ((it.tNs - m.startNs) / 1e9).toFloat() }
+        val xNote = s(R.string.gr_x_label)
         lineChart(
-            s(R.string.gr_a_title), s(R.string.gr_a_cap), ts, m.samples.map { it.mag.toFloat() }, blue,
+            s(R.string.gr_a_title), s(R.string.gr_a_cap), s(R.string.gr_a_ylabel), xNote, ts,
+            listOf(Series(m.samples.map { it.mag.toFloat() }, blue, s(R.string.gr_a_legend))),
             hLines = listOf(m.threshold.toFloat() to s(R.string.gr_threshold)),
             vLines = listOf(0f to s(R.string.gr_start), m.durationS.toFloat() to s(R.string.gr_end)),
             marker = Triple(m.peakTimeS.toFloat(), m.peak.toFloat(), s(R.string.gr_peak_label, m.peak)),
@@ -385,14 +449,25 @@ class ReportPdf(private val context: Context) {
         val vs = m.kinematics.map { sqrt(it.vx * it.vx + it.vy * it.vy + it.vz * it.vz).toFloat() }
         val vMaxI = vs.indices.maxByOrNull { vs[it] } ?: 0
         lineChart(
-            s(R.string.gr_v_title), s(R.string.gr_v_cap), ts, vs, green,
+            s(R.string.gr_v_title), s(R.string.gr_v_cap), s(R.string.gr_v_ylabel), xNote, ts,
+            listOf(Series(vs, green, s(R.string.gr_v_legend))),
             marker = Triple(ts[vMaxI], vs[vMaxI], s(R.string.gr_max_label, m.maxVelocity)),
         )
         val ds = m.kinematics.map { (sqrt(it.dx * it.dx + it.dy * it.dy + it.dz * it.dz) * 1000).toFloat() }
         val dMaxI = ds.indices.maxByOrNull { ds[it] } ?: 0
         lineChart(
-            s(R.string.gr_d_title), s(R.string.gr_d_cap), ts, ds, accent,
+            s(R.string.gr_d_title), s(R.string.gr_d_cap), s(R.string.gr_d_ylabel), xNote, ts,
+            listOf(Series(ds, accent, s(R.string.gr_d_legend))),
             marker = Triple(ts[dMaxI], ds[dMaxI], s(R.string.gr_max_label, m.maxDisplacement * 1000)),
+        )
+        lineChart(
+            s(R.string.gr_ax_title), s(R.string.gr_ax_cap), s(R.string.gr_ax_ylabel), xNote, ts,
+            listOf(
+                Series(m.samples.map { it.x.toFloat() }, 0xFFD64545.toInt(), s(R.string.gr_ax_x)),
+                Series(m.samples.map { it.y.toFloat() }, green, s(R.string.gr_ax_y)),
+                Series(m.samples.map { it.z.toFloat() }, blue, s(R.string.gr_ax_z)),
+            ),
+            signed = true,
         )
 
         heading(s(R.string.rep_tech))

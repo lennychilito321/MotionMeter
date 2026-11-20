@@ -109,11 +109,24 @@
     <string name="gr_scale_title">Intensity scale</string>
     <string name="gr_scale_cap">The triangle marks where the peak of your measurement fell. The scale goes from almost none (green) to very strong (red).</string>
     <string name="gr_a_title">Acceleration over time (m/s²)</string>
-    <string name="gr_a_cap">Shows how strong the movement was at each instant. Horizontal: time in seconds (0 = start of the movement). The movement lies between "start" and "end"; the dot is the peak. Anything below the threshold line is not counted as movement.</string>
+    <string name="gr_a_cap">How to read it: the curve rises when the movement is stronger. The movement lies between "start" and "end" and the dot marks the peak. Anything below the threshold line is not counted as movement: it is sensor noise.</string>
+    <string name="gr_x_label">Horizontal axis →  Time in seconds (s). 0 is the instant the movement started; negative values are the rest before it started.</string>
+    <string name="gr_a_ylabel">Vertical axis ↑  Total acceleration |a| in m/s²: how strong the movement is at each instant, combining the three axes.</string>
+    <string name="gr_v_ylabel">Vertical axis ↑  Estimated velocity |v| in m/s: how fast the table moves.</string>
+    <string name="gr_d_ylabel">Vertical axis ↑  Estimated displacement |d| in mm: how far the table moved from its starting position.</string>
+    <string name="gr_ax_title">Acceleration per axis (x, y, z)</string>
+    <string name="gr_ax_ylabel">Vertical axis ↑  Acceleration of each phone axis in m/s². It can be positive or negative: the sign shows the direction of the movement.</string>
+    <string name="gr_ax_cap">Shows which way the table moved. x: to the right (+) or left (−) of the phone. y: toward the top (+) or bottom (−) of the phone, on the same surface. z: vertical, up (+) or down (−) from the table. The curve that strays furthest from zero is the main direction of the movement.</string>
+    <string name="gr_ax_x">x (right of the phone)</string>
+    <string name="gr_ax_y">y (top of the phone)</string>
+    <string name="gr_ax_z">z (vertical)</string>
+    <string name="gr_a_legend">|a| total acceleration</string>
+    <string name="gr_v_legend">|v| velocity</string>
+    <string name="gr_d_legend">|d| displacement</string>
     <string name="gr_v_title">Estimated velocity (m/s)</string>
-    <string name="gr_v_cap">How fast the table moved. It rises when the table starts moving and returns to zero when it stops. It is computed from the acceleration, so it is an estimate.</string>
+    <string name="gr_v_cap">How to read it: it rises when the table starts moving and returns to zero when it stops; the dot marks the maximum velocity. It is computed from the acceleration, so it is an estimate.</string>
     <string name="gr_d_title">Estimated displacement (mm)</string>
-    <string name="gr_d_cap">How far the table moved from its starting position. It is an estimate: only reliable for short movements.</string>
+    <string name="gr_d_cap">How to read it: it is the accumulated distance from the starting point; the dot marks the maximum. It is an estimate: only reliable for short movements (under 1 or 2 s).</string>
     <string name="gr_start">start</string>
     <string name="gr_end">end</string>
     <string name="gr_threshold">threshold</string>
